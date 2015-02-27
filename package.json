@@ -4,7 +4,7 @@
   "description": "Combinatorial explosion for arrays and trees",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha --compilers js:babel/register"
   },
   "keywords": [
     "combinatorial",
@@ -12,5 +12,10 @@
     "expand"
   ],
   "author": "Pier Paolo Ramon <pierpaolo.ramon@smc.it>",
-  "license": "LGPL-2.1"
+  "license": "LGPL-2.1",
+  "devDependencies": {
+    "babel": "^4.6.0",
+    "mocha": "^2.1.0",
+    "should": "^5.0.1"
+  }
 }

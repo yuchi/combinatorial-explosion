@@ -1,0 +1,5 @@
+{
+  "experimental": true,
+  "loose": true,
+  "blacklist": ["es6.tailCall"]
+}
