@@ -1,0 +1,16 @@
+{
+  "name": "combinatorial-explosion",
+  "version": "0.1.0",
+  "description": "Combinatorial explosion for arrays and trees",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "combinatorial",
+    "explosion",
+    "expand"
+  ],
+  "author": "Pier Paolo Ramon <pierpaolo.ramon@smc.it>",
+  "license": "LGPL-2.1"
+}
