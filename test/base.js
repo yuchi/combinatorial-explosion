@@ -1,7 +1,7 @@
 
 import "should";
 
-import explosion from "../src";
+import { explode } from "../src";
 
 const log = {
   [ Symbol.referenceGet ]( o ) {
@@ -13,34 +13,34 @@ const log = {
 describe("Array explosion", () => {
 
   it("should work with no path", () => {
-    explosion().should.eql([ [] ]);
-    explosion([ ]).should.eql([ [] ]);
-    explosion([ [] ]).should.eql([ [] ]);
-    explosion([ [], [] ]).should.eql([ [] ]);
+    explode().should.eql([ [] ]);
+    explode([ ]).should.eql([ [] ]);
+    explode([ [] ]).should.eql([ [] ]);
+    explode([ [], [] ]).should.eql([ [] ]);
   });
 
   it("should work with simple paths", () => {
-    explosion([ [ 0 ] ]).should.eql([ [ 0 ] ]);
-    explosion([ [ 0 ], [ 1 ] ]).should.eql([ [ 0, 1 ] ]);
+    explode([ [ 0 ] ]).should.eql([ [ 0 ] ]);
+    explode([ [ 0 ], [ 1 ] ]).should.eql([ [ 0, 1 ] ]);
   });
 
   it("should work with mixed empty paths", () => {
-    explosion([ [], [ 0 ] ]).should.eql([ [ 0 ] ]);
-    explosion([ [], [ 0 ], [] ]).should.eql([ [ 0 ] ]);
+    explode([ [], [ 0 ] ]).should.eql([ [ 0 ] ]);
+    explode([ [], [ 0 ], [] ]).should.eql([ [ 0 ] ]);
   });
 
   it("should work with two paths", () => {
-    explosion([ [ 0, 1 ] ]).should.eql([ [ 0 ], [ 1 ] ]);
-    explosion([ [ 0, 1 ], [ 2 ] ]).should.eql([ [ 0, 2 ], [ 1, 2 ] ]);
-    explosion([ [ 0 ], [ 1, 2 ] ]).should.eql([ [ 0, 1 ], [ 0, 2 ] ]);
+    explode([ [ 0, 1 ] ]).should.eql([ [ 0 ], [ 1 ] ]);
+    explode([ [ 0, 1 ], [ 2 ] ]).should.eql([ [ 0, 2 ], [ 1, 2 ] ]);
+    explode([ [ 0 ], [ 1, 2 ] ]).should.eql([ [ 0, 1 ], [ 0, 2 ] ]);
 
-    explosion([ [ 0, 1 ], [ 2, 3 ] ]).should.eql([
+    explode([ [ 0, 1 ], [ 2, 3 ] ]).should.eql([
       [ 0, 2 ], [ 0, 3 ], [ 1, 2 ], [ 1, 3 ]
     ]);
   });
 
   it("should work with some random data", () => {
-    explosion([
+    explode([
       [ 0, 1 ],
       [ 2 ],
       [ 3, 4, 5 ]
@@ -55,9 +55,9 @@ describe("Array explosion", () => {
   });
 
   it("should work with undefined/null values", () => {
-    explosion([ [ null ] ]).should.eql([ [ null ] ]);
-    explosion([ [ null, undefined ] ]).should.eql([ [ null ], [ undefined ] ]);
-    explosion([
+    explode([ [ null ] ]).should.eql([ [ null ] ]);
+    explode([ [ null, undefined ] ]).should.eql([ [ null ], [ undefined ] ]);
+    explode([
       [ null ],
       [ null, undefined ]
     ]).should.eql([
@@ -73,7 +73,7 @@ describe("Array explosion", () => {
       return results;
     };
 
-    explosion(range(5).map(range)).should.eql([
+    explode(range(5).map(range)).should.eql([
       [ 0, 0, 0, 0 ],
       [ 0, 0, 0, 1 ],
       [ 0, 0, 0, 2 ],
@@ -100,7 +100,7 @@ describe("Array explosion", () => {
       [ 0, 1, 2, 3 ]
     ]);
 
-    explosion(range(4).map(_ => [ '...', 'MMM' ]))
+    explode(range(4).map(_ => [ '...', 'MMM' ]))
       .map(a => a.join('')).join('\n')
       .should.eql(`
 ............
