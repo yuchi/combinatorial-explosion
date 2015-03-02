@@ -2,13 +2,7 @@
 import "should";
 
 import { explode } from "../src";
-
-const log = {
-  [ Symbol.referenceGet ]( o ) {
-    console.log(o);
-    return o;
-  }
-};
+import { log } from "./utils";
 
 describe("Array explosion", () => {
 
