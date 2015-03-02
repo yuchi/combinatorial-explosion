@@ -5,6 +5,7 @@ import { explodeTree } from "../src";
 import { log } from "./utils";
 
 const node = (id, repeat, ...children) => ({ id, repeat, children });
+const mock = (id, ...children) => ({ id, children });
 const cfg = {
   fork(node) {
     if (!node) {
@@ -45,7 +46,7 @@ describe("Tree explosion", () => {
     const tree = node('a', 1);
 
     explodeTree(tree, cfg).should.eql([
-      { id: 'a-r0', children: [] }
+      mock('a-r0')
     ]);
   });
 
@@ -53,21 +54,22 @@ describe("Tree explosion", () => {
     const tree = node('a', 3);
 
     explodeTree(tree, cfg).should.eql([
-      { id: 'a-r2', children: [] },
-      { id: 'a-r1', children: [] },
-      { id: 'a-r0', children: [] }
+      mock('a-r2'),
+      mock('a-r1'),
+      mock('a-r0')
     ]);
   });
 
   it("should work with a simple tree", () => {
-    const tree = node('a', 1,
-      node('b', 1), node('c', 1));
+    const tree =
+      node('a', 1,
+        node('b', 1),
+        node('c', 1));
 
     explodeTree(tree, cfg).should.eql([
-      { id: 'a-r0', children: [
-        { id: 'b-r0', children: [] },
-        { id: 'c-r0', children: [] }
-      ] }
+      mock('a-r0',
+        mock('b-r0'),
+        mock('c-r0'))
     ]);
   });
 
@@ -76,18 +78,15 @@ describe("Tree explosion", () => {
       node('b', 3), node('c', 1));
 
     explodeTree(tree, cfg).should.eql([
-      { id: 'a-r0', children: [
-        { id: 'b-r2', children: [] },
-        { id: 'c-r0', children: [] }
-      ] },
-      { id: 'a-r0', children: [
-        { id: 'b-r1', children: [] },
-        { id: 'c-r0', children: [] }
-      ] },
-      { id: 'a-r0', children: [
-        { id: 'b-r0', children: [] },
-        { id: 'c-r0', children: [] }
-      ] }
+      mock('a-r0',
+        mock('b-r2'),
+        mock('c-r0')),
+      mock('a-r0',
+        mock('b-r1'),
+        mock('c-r0')),
+      mock('a-r0',
+        mock('b-r0'),
+        mock('c-r0'))
     ]);
   });
 
@@ -99,20 +98,14 @@ describe("Tree explosion", () => {
             node('d', 2))));
 
     explodeTree(tree, cfg).should.eql([
-      { id: 'a-r0', children: [
-        { id: 'b-r0', children: [
-          { id: 'c-r0', children: [
-            { id: 'd-r1', children: [] }
-          ] }
-        ] }
-      ] },
-      { id: 'a-r0', children: [
-        { id: 'b-r0', children: [
-          { id: 'c-r0', children: [
-            { id: 'd-r0', children: [] }
-          ] }
-        ] }
-      ] }
+      mock('a-r0',
+        mock('b-r0',
+          mock('c-r0',
+            mock('d-r1')))),
+      mock('a-r0',
+        mock('b-r0',
+          mock('c-r0',
+            mock('d-r0'))))
     ]);
   });
 
@@ -138,24 +131,21 @@ describe("Tree explosion", () => {
 
     explodeTree(tree, { ...cfg, fork }).should.eql([
       // Both present
-      { id: 'a', children: [
-        { id: 'b', children: [] },
-        { id: 'c', children: [] }
-      ] },
+      mock('a',
+        mock('b'),
+        mock('c')),
       // Only 'b'
-      { id: 'a', children: [
-        { id: 'b', children: [] },
-        null
-      ] },
+      mock('a',
+        mock('b'),
+        null),
       // Only 'c'
-      { id: 'a', children: [
+      mock('a',
         null,
-        { id: 'c', children: [] }
-      ] },
+        mock('c')),
       // None
-      { id: 'a', children: [
-        null, null
-      ] }
+      mock('a',
+        null,
+        null)
     ]);
   });
 });
