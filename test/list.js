@@ -1,7 +1,7 @@
 
 import "should";
 
-import { explode } from "../src";
+import { explode } from "../lib";
 import { log } from "./utils";
 
 describe("Array explosion", () => {

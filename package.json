@@ -2,8 +2,9 @@
   "name": "combinatorial-explosion",
   "version": "0.1.0",
   "description": "Combinatorial explosion for arrays and trees",
-  "main": "index.js",
+  "main": "lib/index.js",
   "scripts": {
+    "prepublish": "babel --remove-comments --out-dir lib src",
     "test": "mocha --compilers js:babel/register"
   },
   "keywords": [

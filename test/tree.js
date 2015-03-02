@@ -1,7 +1,7 @@
 
 import "should";
 
-import { explodeTree } from "../src";
+import { explodeTree } from "../lib";
 import { log } from "./utils";
 
 const node = (id, repeat, ...children) => ({ id, repeat, children });
