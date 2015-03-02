@@ -6,20 +6,33 @@ import { log } from "./utils";
 
 const node = (id, repeat, ...children) => ({ id, repeat, children });
 const cfg = {
-  fork(n) {
-    if (!n) return [];
-    let { repeat } = n;
+  fork(node) {
+    if (!node) {
+      return [];
+    }
+
+    let { repeat } = node;
     const results = [];
-    while ((repeat--) > 0) results.push({ ...n, id: `${n.id}-r${repeat}` });
+
+    while ((repeat--) > 0) {
+      results.push({ ...node, id: `${node.id}-r${repeat}` });
+    }
+
     return results;
   },
 
-  extract({ children }) {
-    return children;
+  extract(node) {
+    return node ? node.children : [];
   },
 
-  compose({ repeat, ...node }, children) {
-    return { ...node, children };
+  compose(node, children) {
+    if (!node) {
+      return null;
+    }
+
+    const { repeat, ...rest } = node;
+
+    return { ...rest, children };
   }
 };
 
@@ -103,5 +116,46 @@ describe("Tree explosion", () => {
     ]);
   });
 
+  it("should work with conditionals", () => {
+    // We need a custom fork here
+    const fork = function fork(node) {
+      if (!node) {
+        return [];
+      }
 
+      if (node.repeat) {
+        return [ node, null ];
+      }
+      else {
+        return [ node ];
+      }
+    };
+
+    const tree =
+      node('a', false,
+        node('b', true),
+        node('c', true));
+
+    explodeTree(tree, { ...cfg, fork }).should.eql([
+      // Both present
+      { id: 'a', children: [
+        { id: 'b', children: [] },
+        { id: 'c', children: [] }
+      ] },
+      // Only 'b'
+      { id: 'a', children: [
+        { id: 'b', children: [] },
+        null
+      ] },
+      // Only 'c'
+      { id: 'a', children: [
+        null,
+        { id: 'c', children: [] }
+      ] },
+      // None
+      { id: 'a', children: [
+        null, null
+      ] }
+    ]);
+  });
 });
