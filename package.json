@@ -18,5 +18,16 @@
     "babel": "^4.6.0",
     "mocha": "^2.1.0",
     "should": "^5.0.1"
-  }
+  },
+  "directories": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yuchi/combinatorial-explosion.git"
+  },
+  "bugs": {
+    "url": "https://github.com/yuchi/combinatorial-explosion/issues"
+  },
+  "homepage": "https://github.com/yuchi/combinatorial-explosion"
 }
