@@ -1,6 +1,6 @@
 {
   "name": "combinatorial-explosion",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Combinatorial explosion for arrays and trees",
   "main": "lib/index.js",
   "scripts": {
